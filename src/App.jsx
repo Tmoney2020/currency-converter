@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 function App() {
   const [currency, setCurrency] = useState({
-    base: 'USD',
+    base: undefined,
     rates: {
       GBP: undefined,
       HKD: undefined,
@@ -43,7 +43,7 @@ function App() {
 
   const [text, setText] = useState('')
   const [baseCurrency, setBaseCurrency] = useState('USD')
-  const [currencyToConvert, setCurrencyToConvert] = useState('')
+  const [currencyToConvert, setCurrencyToConvert] = useState('USD')
 
   const textCurrencyInputToConvert = (event) => {
     const value = event.target.value
@@ -77,8 +77,6 @@ function App() {
       })
   }
 
-  useEffect(loadCurrencyFromApi, [currencyToConvert])
-
   function today() {
     const isoDate = new Date().toISOString()
 
@@ -87,6 +85,8 @@ function App() {
 
   const date = currency.date || today()
   const [inputDate, setInputDate] = useState(date)
+
+  useEffect(loadCurrencyFromApi, [currencyToConvert, inputDate])
 
   return (
     <body>
