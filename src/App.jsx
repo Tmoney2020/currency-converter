@@ -38,7 +38,7 @@ function App() {
       HUF: undefined,
       SEK: undefined,
     },
-    date: '2020-07-01',
+    date: undefined,
   })
 
   const [text, setText] = useState('')
@@ -67,7 +67,7 @@ function App() {
   console.log(baseCurrency)
 
   const loadCurrencyFromApi = () => {
-    const url = `https://api.ratesapi.io/api/latest?base=${currencyToConvert.toUpperCase()}`
+    const url = `https://api.ratesapi.io/api/${inputDate}?base=${currencyToConvert.toUpperCase()}`
     console.log(`Loading from ${url}`)
 
     fetch(url)
@@ -79,6 +79,15 @@ function App() {
 
   useEffect(loadCurrencyFromApi, [currencyToConvert])
 
+  function today() {
+    const isoDate = new Date().toISOString()
+
+    return isoDate.slice(0, 10)
+  }
+
+  const date = currency.date || today()
+  const [inputDate, setInputDate] = useState(date)
+
   return (
     <body>
       <div className="jumbotron m-5">
@@ -86,12 +95,20 @@ function App() {
         <p className="lead">Convert your currency to any in the world!</p>
         <p>Bulls only, no Bears allowed</p>
       </div>
+      <input
+        type="date"
+        className="ml-5"
+        value={inputDate}
+        onChange={(event) => {
+          setInputDate(event.target.value)
+        }}
+      />
       <button
         type="button"
         className="btn btn-primary ml-5 mb-2"
         onClick={handleClickForConvert}
       >
-        Change Base Currency
+        Convert
       </button>
 
       <ul className="list-group ml-5 mr-5">
