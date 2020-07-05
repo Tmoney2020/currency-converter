@@ -41,6 +41,42 @@ function App() {
     date: undefined,
   })
 
+  const goodCurrency = [
+    'GBP',
+    'HKD',
+    'IDR',
+    'ILS',
+    'DKK',
+    'INR',
+    'CHF',
+    'MXN',
+    'CZK',
+    'SGD',
+    'THB',
+    'HRK',
+    'EUR',
+    'MYR',
+    'NOK',
+    'CNY',
+    'BGN',
+    'PHP',
+    'PLN',
+    'ZAR',
+    'CAD',
+    'ISK',
+    'BRL',
+    'RON',
+    'NZD',
+    'TRY',
+    'JPY',
+    'RUB',
+    'KRW',
+    'USD',
+    'AUD',
+    'HUF',
+    'SEK',
+  ]
+
   const [amountToConvert, setAmountToConvert] = useState('')
   const [baseCurrency, setBaseCurrency] = useState('USD')
   const [currencyToConvert, setCurrencyToConvert] = useState('USD')
@@ -61,13 +97,17 @@ function App() {
   }
 
   const handleClickForConvert = (event) => {
-    setCurrencyToConvert(baseCurrency)
+    const upperBaseCurrency = baseCurrency.toUpperCase()
+
+    if (goodCurrency.includes(upperBaseCurrency) === false) {
+      setCurrencyToConvert('USD')
+    } else {
+      setCurrencyToConvert(baseCurrency)
+    }
   }
 
-  console.log(baseCurrency)
-
   const loadCurrencyFromApi = () => {
-    const url = `https://api.ratesapi.io/api/${inputDate}?base=${currencyToConvert.toUpperCase()}`
+    const url = `https://api.ratesapi.io/api/${realInputDate}?base=${currencyToConvert.toUpperCase()}`
     console.log(`Loading from ${url}`)
 
     fetch(url)
@@ -85,6 +125,7 @@ function App() {
 
   const date = currency.date || today()
   const [inputDate, setInputDate] = useState(date)
+  const realInputDate = inputDate || today()
 
   useEffect(loadCurrencyFromApi, [currencyToConvert, inputDate])
 
