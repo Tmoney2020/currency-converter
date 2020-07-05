@@ -108,7 +108,7 @@ function App() {
         className="btn btn-primary ml-5 mb-2 mt-2"
         onClick={handleClickForConvert}
       >
-        Convert base currency
+        Change base currency
       </button>
 
       <ul className="list-group ml-5 mr-5">
